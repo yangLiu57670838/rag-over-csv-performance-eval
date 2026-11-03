@@ -1,0 +1,11 @@
+# Purpose: storage B (rows as sentences) + hybrid search + BGE reranker.
+# Run: python run.py --config configs/b_hybrid_rerank.yaml
+#
+# Fields to fill later:
+#   dataset: co2
+#   storage: B
+#   search: hybrid
+#   rerank: true
+#   model: api          # or ollama
+#   top_k: 5
+# Steps used: 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 13

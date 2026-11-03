@@ -1,0 +1,13 @@
+# Purpose: keep large downloads, built indexes, and run outputs out of git.
+# Rebuild tables with data/download.py and indexes with src/rag steps 03–05.
+
+data/raw/
+data/processed/
+indexes/
+results/*.csv
+results/*.png
+results/*.json
+__pycache__/
+*.pyc
+.venv/
+.env

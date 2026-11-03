@@ -1,0 +1,12 @@
+# Purpose: storage C (metadata only, the control) + BM25.
+# No numeric cells are indexed, so a correct number here was invented.
+# Run: python run.py --config configs/c_bm25.yaml
+#
+# Fields to fill later:
+#   dataset: co2
+#   storage: C
+#   search: bm25
+#   rerank: false
+#   model: api          # or ollama
+#   top_k: 5
+# Steps used: 01, 02, 03, 06, 10, 13

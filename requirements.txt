@@ -1,0 +1,9 @@
+# Purpose: Python libraries for this repo. No LangChain or LlamaIndex.
+# The pipeline is written by hand so each RAG step stays visible.
+#
+# pandas
+# rank_bm25
+# sentence-transformers
+# faiss-cpu
+# pyyaml
+# ollama

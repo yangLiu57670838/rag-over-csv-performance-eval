@@ -1,0 +1,5 @@
+# Purpose: the public benchmark, one JSON object per line.
+# Loader should skip lines that start with #.
+# Fields: id, type, question, answer, dataset, rows_needed
+# Types: lookup, compare, trend, aggregate, unanswerable
+# Built by src/make_questions.py. Target size: 300+ questions.

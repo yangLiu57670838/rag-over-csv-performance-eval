@@ -1,0 +1,10 @@
+# Purpose: baseline with no retrieval. The model answers from memory only.
+# Run: python run.py --config configs/baseline_no_retrieval.yaml
+#
+# Fields to fill later:
+#   dataset: co2
+#   storage: none
+#   search: none
+#   model: api          # or ollama
+# Steps used: 01 (for the question file's dataset), 11, 13
+# Question building still uses src/make_questions.py.

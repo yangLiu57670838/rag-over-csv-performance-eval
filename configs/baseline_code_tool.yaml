@@ -1,0 +1,10 @@
+# Purpose: strong baseline. The model writes pandas and we run it on the CSV.
+# Run: python run.py --config configs/baseline_code_tool.yaml
+#
+# Fields to fill later:
+#   dataset: co2
+#   storage: none
+#   search: none
+#   model: api          # or ollama
+# Steps used: 01, 12, 13
+# Expected to win on aggregate and trend questions, where RAG sees too few rows.

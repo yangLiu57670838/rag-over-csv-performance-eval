@@ -1,0 +1,11 @@
+# Purpose: storage B (rows rewritten as sentences) + BM25 keyword search.
+# Run: python run.py --config configs/b_bm25.yaml
+#
+# Fields to fill later:
+#   dataset: co2
+#   storage: B
+#   search: bm25
+#   rerank: false
+#   model: api          # or ollama
+#   top_k: 5
+# Steps used: 01, 02, 03, 06, 10, 13

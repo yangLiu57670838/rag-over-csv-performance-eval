@@ -1,0 +1,11 @@
+# Purpose: storage B (rows as sentences) + dense vector search (BGE + FAISS).
+# Run: python run.py --config configs/b_dense.yaml
+#
+# Fields to fill later:
+#   dataset: co2
+#   storage: B
+#   search: dense
+#   rerank: false
+#   model: api          # or ollama
+#   top_k: 5
+# Steps used: 01, 02, 04, 05, 07, 10, 13
