@@ -51,7 +51,39 @@ Rules:
 
 **Models:** one API model and one small local model (via Ollama).
 
-## 5. Questions (the benchmark)
+## 5. Chunking method
+
+One data row is one chunk. A chunk does not hold a group of rows, such as every year for one country. A group would put a whole time span in one hit, so an average could be answered from a single chunk. The hypothesis says top-k search fails on those questions. One row per chunk also lets recall@k check the exact source row.
+
+The first line of a chunk is the row key. The body is the whole row, including the numbers. Storage A and storage B use the same title, so the comparison is the body.
+
+| Dataset | Title | Body |
+|---|---|---|
+| OWID CO₂, OWID energy | `country, year` | about 8 measure columns |
+| OWID notable AI models | model name | the metric columns |
+
+**A, raw row.** Title, then the column header once, then the cells:
+
+```
+Australia, 2020
+country, year, methane_per_capita, cement_co2
+Australia, 2020, 1.2, 0.04
+```
+
+**B, row as a sentence.** Same title, then one sentence that states every value:
+
+```
+Australia, 2020
+In 2020, Australia's methane per person was 1.2 tonnes and its cement CO₂ was 0.04 million tonnes.
+```
+
+**C, metadata only.** Not a row chunk. One description of the dataset: what it covers and the column names, with no numbers.
+
+The title helps lookup and compare. Those questions name a country and a year (or a model), so BM25 and the embedding can match the first line. The numbers stay in the body, so the model has a figure to quote. The title does not help trends or aggregates: each chunk is still one year, and top-k will not hold a long span.
+
+About 8 columns keeps one row short. The header is repeated once per chunk, not once per column. Each chunk stores its source row id for recall@k. This step is `src/rag/02_make_chunks.py`.
+
+## 6. Questions (the benchmark)
 
 - Make 300+ questions from templates, e.g. "What was {column} of {country} in {year}?".
 - Get the right answer with pandas from the CSV. No hand checking needed.
@@ -66,7 +98,7 @@ Rules:
 | Aggregate | Average emissions of India, 2000–2020? | many |
 | Unanswerable | CO₂ of Australia in 1850? (not in data) | 0 |
 
-## 6. Metrics
+## 7. Metrics
 
 - **Accuracy:** an answer is right if it is within 1% of the true number. Yes/no questions use exact match.
 - **Recall@k:** did search find the right rows?
@@ -74,7 +106,7 @@ Rules:
 - **Refusal:** does it say "I don't know" for unanswerable questions?
 - **Cost and speed:** tokens and seconds per question.
 
-## 7. Repo layout
+## 8. Repo layout
 
 ```
 rag-statqa/
@@ -100,7 +132,7 @@ rag-statqa/
 
 **Rule:** build the pipeline yourself first. Don't use LangChain or LlamaIndex, so you learn how each part works.
 
-## 8. Plan (14 days)
+## 9. Plan (14 days)
 
 | Day | Task | Done when |
 |---|---|---|
@@ -114,7 +146,7 @@ rag-statqa/
 | 11–13 | Write the research report in `report.md` and make 2–3 charts | full draft, every number taken from `results/` |
 | 14 | Clean the README, link the report, test a fresh run, publish | one command reproduces the results |
 
-## 9. Research report plan
+## 10. Research report plan
 
 The written result is `report.md` (about 4–6 pages). Reading notes stay in `paper/notes.md` and feed section 2. Charts are made from `results/` and placed in the report.
 
@@ -131,14 +163,14 @@ The written result is `report.md` (about 4–6 pages). Reading notes stay in `pa
 |---|---|---|
 | 1. Intro | The problem, the research question, the hypothesis, and 3 main findings | Section 2 of this file, plus the results table |
 | 2. Related work | RAG, table QA, and text-to-SQL / code tools (~10 papers) | `paper/notes.md` |
-| 3. Setup | Datasets, how questions were built, storage A/B/C, search methods, baselines, models, metrics | Sections 3–6 of this file |
+| 3. Setup | Datasets, chunking, how questions were built, storage A/B/C, search methods, baselines, models, metrics | Sections 3–7 of this file |
 | 4. Results | One main table of all setups × question types, plus 2–3 charts | `results/` |
 | 5. Error analysis | 30–50 wrong answers grouped by cause, each group with an example | Day-10 notes and run logs |
 | 6. Limits | Small benchmark, few datasets, many template questions | What was actually run |
 | 7. Conclusion | What the comparison showed, and what it does not show | Sections 4 and 5 |
 | AI use | What was written or coded with AI assistance | This project |
 
-## 10. Risks
+## 11. Risks
 
 | Risk | Fix |
 |---|---|
@@ -147,7 +179,7 @@ The written result is `report.md` (about 4–6 pages). Reading notes stay in `pa
 | Row chunks too long | fewer columns; repeat the header only once per chunk |
 | Not enough time | drop the energy dataset and the reranker first |
 
-## 11. Done means
+## 12. Done means
 
 - [ ] One command reproduces all results
 - [ ] Questions + answers are public in the repo
